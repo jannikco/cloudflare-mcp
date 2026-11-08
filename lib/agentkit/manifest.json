@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-cloudflare",
+      "description": "Connect AI agents to Cloudflare using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-cloudflare/SKILL.md": "3b8a2367c752eda628224c6b3a3aa8c5a5fb18367ff377802614ae57fd6e3ae5"
+  }
+}
