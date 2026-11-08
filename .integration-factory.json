@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "id": "cloudflare-mcp",
+  "kind": "provider-connector",
+  "artifactType": "connector",
+  "qualityVersion": 2,
+  "title": "Cloudflare MCP server",
+  "description": "Verify a least-privilege token and inspect the domains it can access before changing DNS.",
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "product": "pipmcp",
+  "appSlug": "cloudflare",
+  "appName": "Cloudflare",
+  "operationIds": [
+    "verify_token",
+    "list_zones"
+  ],
+  "sourceRevision": "653ff6d8028774181e42ef4452596f208c56ec2becd827b86c4673f1dffb1109",
+  "evidence": [
+    "Actual tools/call and direct-provider request contract tests"
+  ],
+  "provenance": [
+    "https://developers.cloudflare.com/api/resources/zones/methods/list/"
+  ],
+  "attributionSlug": "github-cloudflare-mcp",
+  "connectorId": "cloudflare",
+  "connector": {
+    "id": "cloudflare",
+    "name": "Cloudflare",
+    "version": "0.2.0",
+    "baseUrl": "https://api.cloudflare.com/client/v4",
+    "auth": {
+      "type": "bearer",
+      "env": "CLOUDFLARE_API_TOKEN"
+    },
+    "tools": [
+      {
+        "name": "verify_token",
+        "description": "Check token validity without exposing its value.",
+        "method": "GET",
+        "path": "/user/tokens/verify",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {},
+          "body": {}
+        },
+        "sampleArguments": {},
+        "provenance": [
+          "https://developers.cloudflare.com/api/resources/user/subresources/tokens/methods/verify/"
+        ]
+      },
+      {
+        "name": "list_zones",
+        "description": "List DNS zones allowed by this token.",
+        "method": "GET",
+        "path": "/zones",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "per_page": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512,
+              "description": "Identifier"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {
+            "page": "page",
+            "per_page": "per_page",
+            "name": "name"
+          },
+          "body": {}
+        },
+        "sampleArguments": {},
+        "provenance": [
+          "https://developers.cloudflare.com/api/resources/zones/methods/list/"
+        ]
+      }
+    ],
+    "workflow": {
+      "name": "Zone access review",
+      "description": "Verify a least-privilege token and inspect the domains it can access before changing DNS.",
+      "steps": [
+        "verify_token",
+        "list_zones"
+      ]
+    },
+    "provenance": [
+      "https://developers.cloudflare.com/api/resources/zones/methods/list/"
+    ],
+    "verification": "mock-only",
+    "providerLiveValidation": "not-run",
+    "capabilityEvidence": {
+      "local": {
+        "level": "Tested",
+        "operations": [
+          {
+            "name": "verify_token",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "list_zones",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          }
+        ],
+        "evidenceRefs": [
+          "Provider request/stdio contract tests"
+        ],
+        "mode": "local"
+      },
+      "managed": {
+        "level": "Documented",
+        "operations": [
+          {
+            "name": "verify_token",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "list_zones",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          }
+        ],
+        "evidenceRefs": [],
+        "mode": "managed"
+      }
+    },
+    "repoId": "cloudflare-mcp",
+    "appSlug": "cloudflare",
+    "product": "pipmcp",
+    "artifactType": "connector",
+    "sourceRevision": "653ff6d8028774181e42ef4452596f208c56ec2becd827b86c4673f1dffb1109",
+    "managedAvailability": {
+      "status": "listed",
+      "checkedAt": "2026-11-08T12:29:10.433747+00:00"
+    }
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "verify_token",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "list_zones",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "verify_token",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "list_zones",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "utility": {
+    "problem": "Verify a least-privilege token and inspect the domains it can access before changing DNS.",
+    "output": "Actual provider API results through local MCP tools"
+  },
+  "providerDocs": "https://developers.cloudflare.com/api/resources/zones/methods/list/",
+  "factory": "leadadapter-pipmcp",
+  "generatorVersion": 2
+}
